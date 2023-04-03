@@ -30,3 +30,22 @@ func TestRouterNamedParameter(t *testing.T) {
 	assert.Equal(t, "Product 1 Item 1", string(body))
 
 }
+
+func TestCatchAllParams(t *testing.T) {
+	router := httprouter.New()
+	router.GET("/images/*image", func(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+		image := params.ByName("image")
+		text := "Image : " + image
+		fmt.Fprintf(writer, text)
+	})
+
+	request := httptest.NewRequest(http.MethodGet, "http://lovalhost:3000/images/small/profile.png", nil)
+	recorder := httptest.NewRecorder()
+
+	router.ServeHTTP(recorder, request)
+
+	response := recorder.Result().Body
+	body, _ := io.ReadAll(response)
+	fmt.Println(string(body))
+
+}
