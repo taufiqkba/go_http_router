@@ -10,7 +10,7 @@ import (
 	"testing"
 )
 
-func TestNotFoundHanlder(t *testing.T) {
+func TestNotFoundHandler(t *testing.T) {
 	router := httprouter.New()
 	router.NotFound = http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 		fmt.Fprint(writer, "Not Found 404")
@@ -24,5 +24,5 @@ func TestNotFoundHanlder(t *testing.T) {
 	response := recorder.Result().Body
 	body, _ := io.ReadAll(response)
 
-	assert.Equal(t, "Not Found 404", string(body), "Not Found Handler Success")
+	assert.Equal(t, "Not Found 404", string(body))
 }
